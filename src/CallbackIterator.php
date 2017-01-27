@@ -18,6 +18,14 @@ class CallbackIterator implements \Iterator
     private $started = false;
 
     /**
+     * @throws StopIterateException
+     */
+    public static function stopIterate()
+    {
+        throw new StopIterateException();
+    }
+
+    /**
      * CallbackIterator constructor.
      * @param callable $callback
      */
@@ -64,10 +72,5 @@ class CallbackIterator implements \Iterator
     public function valid()
     {
         return $this->valid;
-    }
-
-    public function stopIterate()
-    {
-        throw new StopIterateException();
     }
 }
