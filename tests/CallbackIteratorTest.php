@@ -73,7 +73,7 @@ class CallbackIteratorTest extends BaseTestCase
         /** @var CallbackIterator $iterator */
         $iterator = new CallbackIterator(function () use (&$i, &$iterator) {
             if (++$i > 5) {
-                $iterator->stopIterate();
+                CallbackIterator::stopIterate();
             }
 
             return mt_rand();
