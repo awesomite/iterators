@@ -82,4 +82,37 @@ class CallbackIteratorTest extends BaseTestCase
         foreach ($iterator as $randValue) {}
         foreach ($iterator as $randValue) {}
     }
+
+    public function testMemory()
+    {
+        $length = 1000;
+        $arrayIterator = $this->createArrayIterator($length);
+        $arrayMemory = memory_get_usage();
+        unset($arrayIterator);
+        $callbackIterator = $this->createCallbackIterator($length);
+        $callbackMemory = memory_get_usage();
+        $this->assertTrue($callbackMemory < $arrayMemory);
+    }
+
+    private function createArrayIterator($length)
+    {
+        $data = array();
+        for ($i = 0; $i < $length; $i++) {
+            $data[] = 0;
+        }
+
+        return new \ArrayIterator($data);
+    }
+
+    private function createCallbackIterator($length)
+    {
+        return new CallbackIterator(function () use (&$length) {
+            if (!$length) {
+                CallbackIterator::stopIterate();
+            }
+            $length--;
+
+            return 0;
+        });
+    }
 }
