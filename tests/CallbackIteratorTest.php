@@ -2,6 +2,8 @@
 
 namespace Awesomite\Iterators;
 
+use Symfony\Component\Process\Process;
+
 /**
  * @internal
  */
@@ -85,34 +87,16 @@ class CallbackIteratorTest extends BaseTestCase
 
     public function testMemory()
     {
-        $length = 1000;
-        $arrayIterator = $this->createArrayIterator($length);
-        $arrayMemory = memory_get_usage();
-        unset($arrayIterator);
-        $callbackIterator = $this->createCallbackIterator($length);
-        $callbackMemory = memory_get_usage();
-        $this->assertTrue($callbackMemory < $arrayMemory);
-    }
-
-    private function createArrayIterator($length)
-    {
-        $data = array();
-        for ($i = 0; $i < $length; $i++) {
-            $data[] = 0;
-        }
-
-        return new \ArrayIterator($data);
-    }
-
-    private function createCallbackIterator($length)
-    {
-        return new CallbackIterator(function () use (&$length) {
-            if (!$length) {
-                CallbackIterator::stopIterate();
-            }
-            $length--;
-
-            return 0;
-        });
+        $arrayProcess = new Process('php memoryUsage.php array', __DIR__);
+        $arrayProcess->run();
+        $callbackProcess = new Process('php memoryUsage.php callback', __DIR__);
+        $callbackProcess->run();
+        $callbackMemory = (int) $callbackProcess->getOutput();
+        $arrayMemory = (int) $arrayProcess->getOutput();
+        $div = 1024 * 1024;
+        $this->assertTrue(
+            $callbackMemory < $arrayMemory,
+            sprintf('Callback: %0.2f MB, array: %0.2f MB', $callbackMemory / $div, $arrayMemory / $div)
+        );
     }
 }
