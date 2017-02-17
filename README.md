@@ -31,7 +31,7 @@ function getAllFromDatabase($tableName)
 
 use Awesomite\Iterators\CallbackIterator;
 
-function randomNumbers($tableName)
+function getAllFromDatabase($tableName)
 {
     $page = 0;
     $perPage = 1000;
