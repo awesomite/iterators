@@ -1,5 +1,6 @@
 {
     "name": "awesomite/iterators",
+    "description": "Simulates yield in PHP < 5.5",
     "license": "MIT",
     "authors": [
         {
