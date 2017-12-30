@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the awesomite/iterators package.
+ *
+ * (c) Bartłomiej Krukowski <bartlomiej@krukowski.me>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Awesomite\Iterators;
 
 use Symfony\Component\Process\Process;
@@ -61,7 +70,7 @@ class CallbackIteratorTest extends BaseTestCase
         return array(
             array(array()),
             array(array(1, 2, 3, 4, 5)),
-            array(range(5, 10, .1)),
+            array(\range(5, 10, .1)),
             array(array('q', 'w', 'e', 'r', 't', 'y'))
         );
     }
@@ -78,11 +87,13 @@ class CallbackIteratorTest extends BaseTestCase
                 CallbackIterator::stopIterate();
             }
 
-            return mt_rand();
+            return \mt_rand();
         });
 
-        foreach ($iterator as $randValue) {}
-        foreach ($iterator as $randValue) {}
+        foreach ($iterator as $randValue) {
+        }
+        foreach ($iterator as $randValue) {
+        }
     }
 
     public function testMemory()
@@ -96,7 +107,7 @@ class CallbackIteratorTest extends BaseTestCase
         $div = 1024 * 1024;
         $this->assertTrue(
             $callbackMemory < $arrayMemory,
-            sprintf('Callback: %0.2f MB, array: %0.2f MB', $callbackMemory / $div, $arrayMemory / $div)
+            \sprintf('Callback: %0.2f MB, array: %0.2f MB', $callbackMemory / $div, $arrayMemory / $div)
         );
     }
 }

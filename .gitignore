@@ -1,7 +1,3 @@
 /vendor/
 /.idea/
 /build/
-.DS_Store
-composer.lock
-composer-setup.php
-composer.phar

@@ -1,8 +1,17 @@
 <?php
 
+/*
+ * This file is part of the awesomite/iterators package.
+ *
+ * (c) Bartłomiej Krukowski <bartlomiej@krukowski.me>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 use Awesomite\Iterators\CallbackIterator;
 
-require implode(DIRECTORY_SEPARATOR, array(__DIR__, '..', 'vendor', 'autoload.php'));
+require \implode(DIRECTORY_SEPARATOR, array(__DIR__, '..', 'vendor', 'autoload.php'));
 
 $createArrayIterator = function ($length) {
     $data = array();
@@ -36,4 +45,4 @@ switch ($argv[1]) {
         throw new \RuntimeException('Invalid argument!');
 }
 
-echo memory_get_peak_usage();
+echo \memory_get_peak_usage();
