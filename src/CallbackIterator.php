@@ -73,7 +73,7 @@ class CallbackIterator implements \Iterator
     public function rewind()
     {
         if ($this->started) {
-            throw new \LogicException('Cannot traverse an already opened iterator');
+            throw new \LogicException(sprintf('Cannot rewind an already opened instance of %s', __CLASS__));
         }
     }
 
