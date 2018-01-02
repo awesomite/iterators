@@ -114,8 +114,8 @@ class CallbackIteratorTest extends BaseTestCase
             $callbackMemory <= ($arrayMemory + $mb),
             \sprintf('Callback: %0.2f MB, array: %0.2f MB', $callbackMemory / $mb, $arrayMemory / $mb)
         );
-        register_shutdown_function(function () use ($callbackMemory, $arrayMemory, $mb, $length) {
-            echo sprintf(
+        \register_shutdown_function(function () use ($callbackMemory, $arrayMemory, $mb, $length) {
+            echo \sprintf(
                 "Length: % 7d, callback: % 6.2f MB, array: % 6.2f MB\n",
                 $length,
                 $callbackMemory / $mb,
