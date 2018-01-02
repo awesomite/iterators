@@ -33,7 +33,7 @@ $createCallbackIterator = function ($length) {
     });
 };
 
-$length = 100000;
+$length = (int)$argv[2];
 switch ($argv[1]) {
     case 'callback':
         $iterator = $createCallbackIterator($length);

@@ -71,7 +71,7 @@ class CallbackIteratorTest extends BaseTestCase
             array(array()),
             array(array(1, 2, 3, 4, 5)),
             array(\range(5, 10, .1)),
-            array(array('q', 'w', 'e', 'r', 't', 'y'))
+            array(array('q', 'w', 'e', 'r', 't', 'y')),
         );
     }
 
@@ -96,18 +96,38 @@ class CallbackIteratorTest extends BaseTestCase
         }
     }
 
-    public function testMemory()
+    /**
+     * @dataProvider providerLength
+     *
+     * @param int $length
+     */
+    public function testMemory($length)
     {
-        $arrayProcess = new Process('php memoryUsage.php array', __DIR__);
+        $arrayProcess = new Process('php memoryUsage.php array ' . $length, __DIR__);
         $arrayProcess->run();
-        $callbackProcess = new Process('php memoryUsage.php callback', __DIR__);
+        $callbackProcess = new Process('php memoryUsage.php callback ' . $length, __DIR__);
         $callbackProcess->run();
-        $callbackMemory = (int) $callbackProcess->getOutput();
-        $arrayMemory = (int) $arrayProcess->getOutput();
-        $div = 1024 * 1024;
+        $callbackMemory = (int)$callbackProcess->getOutput();
+        $arrayMemory = (int)$arrayProcess->getOutput();
+        $mb = 1024 * 1024;
         $this->assertTrue(
-            $callbackMemory < $arrayMemory,
-            \sprintf('Callback: %0.2f MB, array: %0.2f MB', $callbackMemory / $div, $arrayMemory / $div)
+            $callbackMemory <= ($arrayMemory + $mb),
+            \sprintf('Callback: %0.2f MB, array: %0.2f MB', $callbackMemory / $mb, $arrayMemory / $mb)
+        );
+        register_shutdown_function(function () use ($callbackMemory, $arrayMemory, $mb) {
+            echo sprintf('Callback: %0.2f MB, array: %0.2f MB', $callbackMemory / $mb, $arrayMemory / $mb), PHP_EOL;
+        });
+    }
+
+    public function providerLength()
+    {
+        return array(
+            array(1),
+            array(10),
+            array(100),
+            array(10000),
+            array(100000),
+            array(1000000),
         );
     }
 }
