@@ -51,3 +51,7 @@ function getAllFromDatabase($tableName)
     });
 }
 ```
+
+## Versioning
+
+The version numbers follow the [Semantic Versioning 2.0.0](http://semver.org/) scheme.

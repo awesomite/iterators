@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the awesomite/iterators package.
+ *
+ * (c) Bartłomiej Krukowski <bartlomiej@krukowski.me>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Awesomite\Iterators;
 
 /**
@@ -26,12 +35,11 @@ class CallbackIterator implements \Iterator
     }
 
     /**
-     * CallbackIterator constructor.
      * @param callable $callback
      */
     public function __construct($callback)
     {
-        if (!is_callable($callback)) {
+        if (!\is_callable($callback)) {
             throw new \InvalidArgumentException("Callback must be callable!");
         }
 
@@ -56,7 +64,7 @@ class CallbackIterator implements \Iterator
         try {
             $this->key++;
             $this->started = true;
-            $this->current = call_user_func($this->callback);
+            $this->current = \call_user_func($this->callback);
         } catch (StopIterateException $exception) {
             $this->valid = false;
         }
@@ -65,7 +73,7 @@ class CallbackIterator implements \Iterator
     public function rewind()
     {
         if ($this->started) {
-            throw new \LogicException('Cannot traverse an already closed iterator');
+            throw new \LogicException(\sprintf('Cannot rewind an already opened instance of %s', __CLASS__));
         }
     }
 
